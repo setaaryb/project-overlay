@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, initial-scale=1.0">
+    <title>Ramadhan Warzone Overlay - View</title>
+    <style>
+        @font-face { 
+            font-family: 'gff'; 
+            src: url('asset/GFF-Latin-ExtraBold.otf'); 
+        }
+        
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            width: 1920px; 
+            height: 1080px; 
+            overflow: hidden; 
+            background-color: #FF00FF; /* Chroma Key */
+            font-family: Arial, sans-serif; 
+        }
+
+        .container { 
+            position: relative; 
+            width: 100%; 
+            height: 100%; 
+        }
+
+        .header-overlay { 
+            width: 100%; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            z-index: 10; 
+        }
+
+        .header-overlay img { 
+            width: 100%; 
+            display: block; 
+        }
+
+        /* LOGO EVENT (TENGAH) */
+        .logo-event-center {
+            position: absolute;
+            top: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 110px;
+            object-fit: contain;
+            z-index: 30;
+        }
+
+        .team-name { 
+            font-family: 'gff'; 
+            position: absolute; 
+            top: 12px; 
+            font-size: 35px; 
+            color: white; 
+            z-index: 20; 
+            text-transform: uppercase; 
+            width: 350px;
+        }
+
+        .left-team { left: 500px; text-align: left; }
+        .right-team { right: 500px; text-align: right; }
+
+        .team-logo { 
+            position: absolute; 
+            top: 5px; 
+            width: 110px; 
+            height: 110px; 
+            object-fit: contain; 
+            z-index: 20; 
+        }
+
+        .left-logo { left: 359px; }
+        .right-logo { right: 359px; }
+
+        .circle { 
+            width: 30px; 
+            height: 30px; 
+            border-radius: 50%; 
+            background: white; 
+            transition: background 0.3s; 
+            border: 2px solid rgba(0,0,0,0.2);
+        }
+
+        .left-circles { 
+            position: absolute; 
+            top: 79px; 
+            left: 700px; 
+            display: flex; 
+            gap: 10px; 
+            z-index: 5; 
+        }
+
+        .right-circles { 
+            position: absolute; 
+            top: 79px; 
+            right: 710px; 
+            display: flex; 
+            gap: 10px; 
+            z-index: 5; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-overlay">
+        <img src="asset/SCORE BOARD.png" alt="Header">
+    </div>
+    
+    <img id="logoEvent" class="logo-event-center">
+    
+    <img id="logoLeft" class="team-logo left-logo">
+    <img id="logoRight" class="team-logo right-logo">
+
+    <div class="left-circles">
+        <div id="l1" class="circle"></div>
+        <div id="l2" class="circle"></div>
+    </div>
+
+    <div class="right-circles">
+        <div id="r1" class="circle"></div>
+        <div id="r2" class="circle"></div>
+    </div>
+
+    <div id="teamLeft" class="team-name left-team">TEAM LEFT</div>
+    <div id="teamRight" class="team-name right-team">TEAM RIGHT</div>
+</div>
+
+<script>
+    function updateDisplay() {
+        // Update Nama
+        document.getElementById("teamLeft").innerText = localStorage.getItem("teamLeft") || "TEAM LEFT";
+        document.getElementById("teamRight").innerText = localStorage.getItem("teamRight") || "TEAM RIGHT";
+
+        // Update Logo-Logo
+        const lLogo = localStorage.getItem("logoLeft");
+        const rLogo = localStorage.getItem("logoRight");
+        const eLogo = localStorage.getItem("logoEvent");
+
+        if(lLogo) document.getElementById("logoLeft").src = lLogo;
+        if(rLogo) document.getElementById("logoRight").src = rLogo;
+        if(eLogo) document.getElementById("logoEvent").src = eLogo;
+
+        // Update Points (Kuning jika true, Putih jika false)
+        document.getElementById("l1").style.backgroundColor = localStorage.getItem("l1") === "true" ? "yellow" : "white";
+        document.getElementById("l2").style.backgroundColor = localStorage.getItem("l2") === "true" ? "yellow" : "white";
+        document.getElementById("r1").style.backgroundColor = localStorage.getItem("r1") === "true" ? "yellow" : "white";
+        document.getElementById("r2").style.backgroundColor = localStorage.getItem("r2") === "true" ? "yellow" : "white";
+    }
+
+    // Mendengarkan perubahan dari tab setting secara real-time
+    window.addEventListener('storage', updateDisplay);
+    
+    // Panggil saat pertama kali load
+    updateDisplay();
+</script>
+</body>
+</html> 
